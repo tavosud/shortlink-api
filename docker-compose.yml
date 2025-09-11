@@ -5,8 +5,8 @@ volumes:
     driver: local
 
 services:
-  vimar_auth_api:
-    container_name: vimar_api_auth
+  shortener_api:
+    container_name: shortener_api
     build: 
       context: .
       dockerfile: Dockerfile
