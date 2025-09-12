@@ -21,4 +21,4 @@ services:
       - ./public:/var/www/public
       - ./.env:/var/www/.env
       - logs:/var/www/logs
-    network_mode: "mysql_default"
+    network_mode: "db_default"
