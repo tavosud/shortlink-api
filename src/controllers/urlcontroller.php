@@ -1,19 +1,13 @@
 <?php
-namespace App\controllers;
 
-use App\models\Url;
-use App\Utils\UrlValidator;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-
-class UrlController {
+class UrlController implements IMethods {
     private $urlModel;
 
     public function __construct() {
         $this->urlModel = new Url();
     }
 
-    public function shorten(Request $request, Response $response) {
+    public function shorten($request, $response, $args) {
         $data = $request->getParsedBody();
         $originalUrl = $data['url'] ?? null;
         $userId = $request->getAttribute("user_id"); // de JWT
@@ -31,14 +25,14 @@ class UrlController {
 
         $shortCode = substr(md5(uniqid()), 0, 6);
         $this->urlModel->create($originalUrl, $shortCode, $userId);
-
+        
         $response->getBody()->write(json_encode([
             "short_url" => getenv("BASE_URL") . "/" . $shortCode
         ]));
         return $response->withHeader("Content-Type", "application/json");
     }
 
-    public function redirect(Request $request, Response $response, $args) {
+    public function redirect($request, $response, $args) {
         $url = $this->urlModel->findByShortCode($args['code']);
         if ($url) {
             return $response
@@ -49,7 +43,7 @@ class UrlController {
         return $response->withStatus(404);
     }
 
-    public function myUrls(Request $request, Response $response) {
+    public function myUrls($request, $response, $args) {
         $userId = $request->getAttribute("user_id");
         $urls = $this->urlModel->findByUserId($userId);
 

@@ -1,9 +1,5 @@
 <?php
-    namespace App\models;
-
-use App\Config\Database;
-use PDO;
-
+    
     class Url {
         private $pdo;
 

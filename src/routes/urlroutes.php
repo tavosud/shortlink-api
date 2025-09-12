@@ -1,12 +1,8 @@
 <?php
 
-    Use Slim\App;
-    use App\controllers\UrlController;
-    use App\middleware\AuthMiddleware;
-    
-    return function (App $app) {
-        $app->post('/shorten', UrlController::class . ':shorten')->add(new AuthMiddleware());
-        $app->get('/my-urls', UrlController::class . ':myUrls')->add(new AuthMiddleware());
+    require __DIR__ . '/../controllers/urlcontroller.php';
+        
+    $app->post('/shorten', \UrlController::class . ':shorten')->add($auth_mw);
+    $app->get('/my-urls', \UrlController::class . ':myUrls')->add($auth_mw);
 
-        $app->get('/{code}', UrlController::class . ':redirect');
-    };
+    $app->get('/{code}', \UrlController::class . ':redirect');

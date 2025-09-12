@@ -1,5 +1,4 @@
 <?php
-namespace App\Utils;
 
 class UrlValidator {
     private static array $blacklist = [];
