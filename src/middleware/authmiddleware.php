@@ -1,5 +1,5 @@
 <?php
-namespace App\Middleware;
+namespace App\middleware;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
