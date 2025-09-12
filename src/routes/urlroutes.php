@@ -1,8 +1,8 @@
 <?php
 
     Use Slim\App;
-    use App\controllers\UrlController;
-    use App\middleware\AuthMiddleware;
+    use App\Controllers\UrlController;
+    use App\Middleware\AuthMiddleware;
     
     return function (App $app) {
         $app->post('/shorten', UrlController::class . ':shorten')->add(new AuthMiddleware());
