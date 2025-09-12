@@ -17,6 +17,8 @@ services:
     ports:
       - "8100:8100"
     volumes:
-      - .:/var/www
+      - ./src:/var/www/src
+      - ./public:/var/www/public
+      - ./.env:/var/www/.env
       - logs:/var/www/logs
     network_mode: "mysql_default"
