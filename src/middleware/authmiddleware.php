@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Psr7\Response as SlimResponse;
 
 // Función global para respuestas no autorizadas
-function unauthorized(string $message, int $status = 401, string $debug = null) {
+function unauthorized(string $message, int $status = 401, ?string $debug = null) {
     $response = new SlimResponse();
     $payload = ["error" => $message];
 
