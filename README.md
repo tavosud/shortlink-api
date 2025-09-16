@@ -31,7 +31,9 @@ API de acortamiento de URLs construida con PHP y el framework Slim. Esta API per
 │   ├── middleware/       # Middleware de autenticación
 │   ├── models/           # Modelos de datos
 │   └── routes/           # Definición de rutas
-└── vendor/              # Dependencias de Composer
+├── vendor/               # Dependencias de Composer
+└── script/              
+    └── shortener.sql     # Script para crear la base de datos
 ```
 
 ## Endpoints de la API 🌐
