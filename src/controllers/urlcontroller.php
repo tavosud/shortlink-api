@@ -23,13 +23,18 @@ class UrlController implements IMethods {
             return $response->withHeader("Content-Type", "application/json")->withStatus(400);
         }
 
-        $shortCode = substr(md5(uniqid()), 0, 6);
-        $this->urlModel->create($originalUrl, $shortCode, $userId);
-        
-        $response->getBody()->write(json_encode([
-            "short_url" => getenv("BASE_URL") . "/" . $shortCode
-        ]));
-        return $response->withHeader("Content-Type", "application/json");
+        try {
+            $shortCode = substr(md5(uniqid()), 0, 6);
+            $this->urlModel->create($originalUrl, $shortCode, $userId);
+            
+            $response->getBody()->write(json_encode([
+                "short_url" => getenv("BASE_URL") . "/" . $shortCode
+            ]));
+            return $response->withHeader("Content-Type", "application/json");
+        } catch (\Exception $e) {
+            $response->getBody()->write(json_encode(["error" => $e->getMessage()]));
+            return $response->withHeader("Content-Type", "application/json")->withStatus(400);
+        }
     }
 
     public function redirect($request, $response, $args) {

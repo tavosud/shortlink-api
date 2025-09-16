@@ -9,6 +9,10 @@
         }
 
         public function create($originalUrl, $shortCode, $userId) {
+            $urlCount = $this->countUserUrls($userId);
+            if ($urlCount >= 5) {
+                throw new \Exception('Has alcanzado el límite máximo de 5 URLs acortadas');
+            }
             $stmt = $this->pdo?->prepare("INSERT INTO urls (original_url, short_code, user_id) VALUES (?,?,?)");
             return $stmt->execute([$originalUrl, $shortCode, $userId]);
         }
@@ -20,8 +24,14 @@
         }
 
         public function findByUserId($userId) {
-            $stmt = $this->pdo?->prepare("SELECT * FROM urls WHERE user_id = ? ORDER BY created_at DESC");
+            $stmt = $this->pdo?->prepare("SELECT * FROM urls WHERE user_id = ? ORDER BY created_at DESC LIMIT 5");
             $stmt->execute([$userId]);
             return $stmt->fetchAll();
+        }
+
+        public function countUserUrls($userId) {
+            $stmt = $this->pdo?->prepare("SELECT COUNT(*) as total FROM urls WHERE user_id = ?");
+            $stmt->execute([$userId]);
+            return $stmt->fetch()['total'];
         }
     }
